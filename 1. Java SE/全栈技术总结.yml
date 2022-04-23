@@ -1,0 +1,125 @@
+JavaSE部分:
+  - Java基础语法
+  - 方法,数组
+  - 面向对象特性
+  - 集合,泛型
+  - 多线程
+  - 文件IO/NIO
+  - Socket网络编程
+  - 注解,反射
+  - 函数式编程,Lambda,Stream
+  - Native方法
+  - XML,JSON格式解析
+
+基础进阶:
+  - JUC 并发编程实战
+  - JVM Java虚拟机性能调优
+  - 设计模式(架构设计,系统重构)
+  - 数据结构与算法刷题
+  - 深入理解系统IO
+  - Mysql调优实战
+  - 字节码编程,AspectJ,ASM框架
+  
+JavaWeb部分:
+  - 数据库Mysql,JDBC,连接池
+  - Tomcat,Jetty服务器
+  - Servlet,Request,Response,Cookie,Session
+  - JSP,EL表达式,JSTL
+  - 过滤器Filter,监听器Listener
+
+框架部分:
+  - Spring
+  - SpringMVC/SpringWebFlux
+  - Mybatis/MybatisPlus
+  - SpringBoot
+  - SpringCloud NetFlix/Alibaba
+  - SpringData
+  - SpringSecurity/Shiro
+  - Netty
+  - Dubbo
+  - WebSocket
+  - Quartz(定时任务)
+  - Activiti(工作流引擎)
+  - Drools(规则引擎)
+  - Canal/MaxWell(数据同步)
+
+必会的库和工具:
+  - Maven
+  - Gradle
+  - Git/SVN
+  - Linux操作命令
+  - SSH工具 XShell,SecureCRT
+  - Easy-POI/Apache POI
+  - Apache Common/Hutool工具库
+  - Typora
+  - VMWARE
+  - Redis Desktop
+  - Navicat
+  - JetBrains全家桶
+  - ApiPost/Postman(API测试)
+  - VS Code(轻量级编辑器)
+
+中间件:
+  - Redis(缓存)
+  - MongoDB(文档数据库)
+  - ElasticSearch(搜索引擎),ELK/Solr
+  - RabbitMQ
+  - Kafka
+  - RocketMQ
+  - Zookeeper
+  - Nacos(服务注册与发现)
+  - Sentinel(服务容灾限流)
+  - Seata(分布式事务)
+  - Nginx(负载均衡)
+  - Docker(容器化部署)
+  - Kubernetes(K8S)
+  - FastDFS(分布式文件系统)
+  - Sharding JDBC/MyCat(分库分表)
+  - Apollo(分布式配置中心)
+  - SpringCloud Gateway(网关)
+
+DevOps:
+  - Jenkins(金丝雀部署)
+
+源码赏读:
+  - Spring源码
+  - SpringMVC源码
+  - Mybatis源码
+  - Netty源码
+  - Dubbo源码
+  
+前端必会:
+  - HTML
+  - CSS
+  - JavaScript
+  - JQuery
+  - Vue2/Vue3
+  - React
+  - ES6语法
+  - Lodash(工具函数库)
+  - Webpack/Vite(构建工具)
+  - NodeJS(异步IO)
+  - Express/Koa(后端框架,开箱即用)
+  - Npm/Yarn(包管理器)
+  - Babel(编译插件)
+  - TypeScript(JS扩展)
+  - Parcel(打包器)
+  - Sass/Less(可编程CSS)
+  - ElementUI
+  - HeyUI
+  - BootStrap
+  - Ant Design
+  - View UI
+  - Three.js(Web3D)
+  - Echarts.js(图表库)
+
+Go语言:
+  - Go语言基础
+  - 数组,切面,映射
+  - GoRoutine协程/管道
+  - 文件IO
+  - 反射
+  - Go Module(构建工具)
+  - Beego/Gin/Iris(Web框架)
+  - GORM(ORM框架)
+  - Logrus(日志)
