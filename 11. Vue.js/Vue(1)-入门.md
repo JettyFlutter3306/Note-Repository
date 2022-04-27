@@ -5,7 +5,7 @@
 Vue (读音 /vjuː/，类似于 **view**) 是一套用于构建用户界面的**渐进式框架**。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
 而且Vue也支持像React那样的组件化构建应用程序.**组件系统**是 Vue 的另一个重要概念，因为它是一种抽象，允许我们使用小型、独立和通常可复用的组件构建大型应用。仔细想想，几乎任意类型的应用界面都可以抽象为一个组件树：
 
-![Component Tree](../../src/assets/images/components.png)
+![Component Tree](./asset/Vue/image/components.png)
 
 ## 1.2 起步安装
 
@@ -93,7 +93,7 @@ new Vue({
 
 **生命周期图示**:
 
-<img src="../../src/assets/images/lifecycle.png" alt="Vue 实例生命周期" style="zoom: 50%;" />
+<img src="./asset/Vue/image/lifecycle.png" alt="Vue 实例生命周期" style="zoom: 50%;" />
 
 ## 1.5 模板语法
 
