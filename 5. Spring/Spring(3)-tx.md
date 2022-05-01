@@ -407,31 +407,21 @@ public class TestSpringRunner {
 
 
 
-| 传播机制                  | 说明                                                         |
-| :------------------------ | :----------------------------------------------------------- |
-| PROPAGATION_REQUIRED      | 如果当前没有事务,就创建一个事务,如果已经存在事务,就加入到这个事务。当前传播机制也是 spring **默认传播机制** |
-| PROPAGATION_REQUIRES_NEW  | 新建事务,如果当前存在事务,就挂起当前事务                     |
-| PROPAGATION_SUPPORTS      | 支持当前事务,如果当前没有事务,就以非事务方式执行             |
-| PROPAGATION_NOT_SUPPORTED | 以非事务方式执行操作,如果当前存在事务,就把当前事务挂起       |
-| PROPAGATION_MANDATORY     | 使用当前的事务,如果当前没有事务,就抛出异常                   |
-| PROPAGATION_NEVER         | 以非事务方式执行,如果当前存在事务,则抛出异常                 |
-| PROPAGATION_NESTED        | 如果当前存在事务,则在嵌套的事务内执行.如果当前没有事务,则执行与 PROPAGATION_REQUIRED 类似的操作 |
+| **传播机制**                  | **说明**                                                     |
+| :---------------------------- | :----------------------------------------------------------- |
+| **PROPAGATION_REQUIRED**      | **支持当前事务,如果当前没有事务则创建一个新的事务. REQUIRED 传播机制也是 spring 默认传播机制.** |
+| **PROPAGATION_SUPPORTS**      | **支持当前事务,如果当前没有事务则以 非事务 方式执行.**       |
+| **PROPAGATION_MANDATORY**     | **支持当前事务,如果当前不存在事务则抛出异常.**               |
+| **PROPAGATION_REQUIRES_NEW**  | **不支持当前事务并创建一个新的事务,假如当前存在事务则挂起.** |
+| **PROPAGATION_NOT_SUPPORTED** | **不支持当前事务并以非事务方式执行,假如当前存在事务则挂起.** |
+| **PROPAGATION_NEVER**         | **不支持当前事务并以非事务方式执行,假如当前存在事务则抛出异常.** |
+| **PROPAGATION_NESTED**        | **如果当前存在事务,则在嵌套的事务内执行.如果当前没有事务,则执行与 PROPAGATION_REQUIRED 类似的操作** |
 
 事务传播属性可以在 `@Transactional` 注解的 *propagation* 属性中定义.
 
 ![image-20220430201957568](assets/Spring/image/image-20220430201957568.png)
 
-### 8.5.2 测试
-
-![image-20200303004001511](assets/Spring/image/事务图解.png) 
-
-
-
-- **REQUIRED** 传播行为
-  
-- **REQUIRES_NEW** 传播行为
-
-### 8.5.3 补充
+### 8.5.2 补充
 
 在Spring 2.x事务通知中,可以像下面这样在 `<tx:method>` 元素中设定传播事务属性.
 
@@ -477,21 +467,21 @@ public class TestSpringRunner {
 
 5. 各个隔离级别解决并发问题的能力见下表
 
-   |                  | 脏读 | 不可重复读 | 幻读 |
-   | ---------------- | ---- | ---------- | ---- |
-   | READ UNCOMMITTED | 有   | 有         | 有   |
-   | READ COMMITTED   | 无   | 有         | 有   |
-   | REPEATABLE READ  | 无   | 无         | 有   |
-   | SERIALIZABLE     | 无   | 无         | 无   |
+   | 隔离级别             | 脏读 | 不可重复读 | 幻读 |
+   | -------------------- | ---- | ---------- | ---- |
+   | **READ UNCOMMITTED** | 有   | 有         | 有   |
+   | **READ COMMITTED**   | 无   | 有         | 有   |
+   | **REPEATABLE READ**  | 无   | 无         | 有   |
+   | **SERIALIZABLE**     | 无   | 无         | 无   |
 
 6. 各种数据库产品对事务隔离级别的支持程度
 
-   |                  | Oracle  | MySQL   |
-   | ---------------- | ------- | ------- |
-   | READ UNCOMMITTED | ×       | √       |
-   | READ COMMITTED   | √(默认) | √       |
-   | REPEATABLE READ  | ×       | √(默认) |
-   | SERIALIZABLE     | √       | √       |
+   | 隔离级别             | Oracle  | MySQL   |
+   | -------------------- | ------- | ------- |
+   | **READ UNCOMMITTED** | ×       | √       |
+   | **READ COMMITTED**   | √(默认) | √       |
+   | **REPEATABLE READ**  | ×       | √(默认) |
+   | **SERIALIZABLE**     | √       | √       |
 
 ### 8.6.3 在Spring中指定事务隔离级别
 
