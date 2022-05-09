@@ -399,8 +399,7 @@ public class HandlerSocketThreadPool {
    // 线程池 
    private ExecutorService executor;
    
-   public HandlerSocketThreadPool(int maxPoolSize, int queueSize){
-      
+   public HandlerSocketThreadPool(int maxPoolSize, int queueSize) {
       this.executor = new ThreadPoolExecutor(
             3, // 8
             maxPoolSize,  
