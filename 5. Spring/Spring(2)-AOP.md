@@ -513,7 +513,7 @@ public class LoggingAspect {
 #### 5.3.6 环绕通知
 
 1. 环绕通知是所有通知类型中功能最为强大的，能够全面地控制连接点，甚至可以控制是否执行连接点。
-2. 对于环绕通知来说，连接点的参数类型必须是ProceedingJoinPoint。它是 JoinPoint的子接口，允许控制何时执行，是否执行连接点。
+2. 对于环绕通知来说，连接点的参数类型必须是 ProceedingJoinPoint。它是 JoinPoint 的子接口，允许控制何时执行，是否执行连接点。
 3. 在环绕通知中需要明确调用ProceedingJoinPoint的proceed()方法来执行被代理的方法。如果忘记这样做就会导致通知被执行了，但目标方法没有被执行。
 4. 注意：环绕通知的方法需要返回目标方法执行之后的结果，即调用 joinPoint.proceed();的返回值，否则会出现空指针异常。
 
@@ -659,7 +659,7 @@ public static void main(String[] args) {
 		System.out.println("==========================================================");
 //		result = ac.div(4, 0);
 //		System.out.println("Main Result : " + result );
-	}
+}
 ~~~
 
 
