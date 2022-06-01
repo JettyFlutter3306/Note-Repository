@@ -75,6 +75,85 @@ $$
 
 
 
+## 2.7 常用符号代码大全
+
+|              | 算式                                      | markdown                                |
+| ------------ | ----------------------------------------- | --------------------------------------- |
+| 上标         | $x^2$                                     | x^2                                     |
+| 下标         | $y _1$                                    | y _1                                    |
+| 除法         | $\frac{1}{2}$                             | \frac{1}{2}                             |
+| 省略号       | $\cdots$                                  | \cdots                                  |
+| 开根号       | $\sqrt{2}$                                | \sqrt{2}                                |
+| 积分         | $\int{x}dx$                               | \int{x}dx                               |
+|              | $\int_{1}^{2}{x}dx$                       | \int_{1}^{2}{x}dx                       |
+| 矢量         | $\vec{a}$                                 | \vec{a}                                 |
+| 极限         | **$\lim{a+b}$**                           | \lim{a+b}                               |
+|              | $\lim_{n\rightarrow+\infty}$              | \lim_{n\rightarrow+\infty}              |
+| 累加         | $\sum_{j=0} ^n \theta_j x_j$              | \sum_{j=0} ^n \theta_j x_j              |
+| 累乘         | $\prod{x}$                                | \prod{x}                                |
+|              | $\prod_{n=1}^{99}{x_n}$                   | \prod_{n=1}^{99}{x_n}                   |
+| 三角运算符   | $\bot$                                    | \bot                                    |
+|              | $\angle$                                  | \angle                                  |
+|              | $\sin$                                    | \sin                                    |
+|              | $\cos$                                    | \cos                                    |
+|              | $\tan$                                    | \tan                                    |
+|              | $\sec$                                    | \sec                                    |
+|              | $\csc$                                    | \csc                                    |
+| 对数运算符   | $\ln2$                                    | \ln2                                    |
+|              | $\log_28$                                 | \log_28                                 |
+|              | $\lg10$                                   | \lg10                                   |
+| 关系运算符   | $\pm$                                     | \pm                                     |
+|              | $\times$                                  | \times                                  |
+|              | $\cdot$                                   | \cdot                                   |
+|              | $\div$                                    | \div                                    |
+|              | $\bigodot$                                | \bigodot                                |
+|              | $\bigotimes$                              | \bigotimes                              |
+|              | $\bigoplus$                               | \bigoplus                               |
+|              | $\approx$                                 | \approx                                 |
+|              | $\neq$                                    | \neq                                    |
+|              | $\equiv$                                  | \equiv                                  |
+|              | $\leq$                                    | \leq                                    |
+|              | $\geq$                                    | \geq                                    |
+|              | $\sum$                                    | \sum                                    |
+|              | $\prod$                                   | \prod                                   |
+|              | $\coprod$                                 | \coprod                                 |
+|              | $\mid$                                    | \mid                                    |
+|              | $\nmid$                                   | \nmid                                   |
+| 集合运算符   | $\emptyset$                               | \emptyset                               |
+|              | $\in$                                     | \in                                     |
+|              | $\notin$                                  | \notin                                  |
+|              | $\subset$                                 | \subset                                 |
+|              | $\supset$                                 | \supset                                 |
+|              | $\subseteq$                               | \subseteq                               |
+|              | $\supseteq$                               | \supseteq                               |
+|              | $\bigcap$                                 | \bigcap                                 |
+|              | $\bigcup$                                 | \bigcup                                 |
+|              | $\bigvee$                                 | \bigvee                                 |
+|              | $\bigwedge$                               | \bigwedge                               |
+|              | $\biguplus$                               | \biguplus                               |
+|              | $\bigsqcup$                               | \bigsqcup                               |
+| 微积分运算符 | $\int$                                    | \int                                    |
+|              | $\iint$                                   | \iint                                   |
+|              | $\iiint$                                  | \iiint                                  |
+|              | $\oint$                                   | \oint                                   |
+|              | $\infty$                                  | \infty                                  |
+|              | $\nabla$                                  | \nabla                                  |
+| 逻辑运算符   | $\because$                                | \because                                |
+|              | $\therefore$                              | \therefore                              |
+|              | $\exists$                                 | \exists                                 |
+|              | $\forall$                                 | \forall                                 |
+|              | $\not\subset$                             | \not\subset                             |
+|              | $\emptyset$                               | \emptyset                               |
+| 戴帽运算符   | $\hat{x}$                                 | \hat{x}                                 |
+|              | $\check{x}$                               | \check{x}                               |
+|              | $\breve{x}$                               | \breve{x}                               |
+| 连线符号     | $\overline{a+b+c+d}$                      | \overline{a+b+c+d}                      |
+|              | $\overbrace{a+\underbrace{b+c}{m}+d}^{n}$ | \overbrace{a+\underbrace{b+c}{m}+d}^{n} |
+| 空格         | $\quad$                                   | \quad                                   |
+| 特殊下标     | $\max \limits_{a<x<b}\{f(x)\}$            | \max \limits_{a<x<b}\{f(x)\}            |
+
+
+
 # 三. 矩阵
 
 ## 3.1 简单矩阵
@@ -376,18 +455,18 @@ $$
 ```
 $$
   \begin{cases}
-    3x + 5y +  z \\
-    7x - 2y + 4z \\
-   -6x + 3y + 2z
+    3x + 5y +  z = 10  \\
+    7x - 2y + 4z = 90  \\
+   -6x + 3y + 2z = 29
   \end{cases}
 $$
 ```
 
 $$
 \begin{cases}
-    3x + 5y +  z \\
-    7x - 2y + 4z \\
-   -6x + 3y + 2z
+    3x + 5y +  z = 10\\
+    7x - 2y + 4z = 90\\
+   -6x + 3y + 2z = 29
  \end{cases}
 $$
 
