@@ -106,9 +106,9 @@ $$
 |              | $\times$                                  | \times                                  |
 |              | $\cdot$                                   | \cdot                                   |
 |              | $\div$                                    | \div                                    |
-|              | $\bigodot$                                | \bigodot                                |
-|              | $\bigotimes$                              | \bigotimes                              |
-|              | $\bigoplus$                               | \bigoplus                               |
+|              | $\bigodot$    $\odot$                     | \bigodot \odot                          |
+|              | $\bigotimes$    $\otimes$                 | \bigotimes \otimes                      |
+|              | $\bigoplus$    $\oplus$                   | \bigoplus \oplus                        |
 |              | $\approx$                                 | \approx                                 |
 |              | $\neq$                                    | \neq                                    |
 |              | $\equiv$                                  | \equiv                                  |
