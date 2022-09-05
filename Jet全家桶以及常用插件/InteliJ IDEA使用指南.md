@@ -137,7 +137,7 @@ IDEA是JetBrains公司的产品，这家公司总部位于捷克共和国的首�
 
 ![image-20220901162010254](asset/image/image-20220901162010254.png)
 
-## 2.6 显示行号 ，  方法和方法间的分隔符
+## 2.6 显示行号 方法和方法间的分隔符
 
 ![image-20220901162332381](asset/image/image-20220901162332381.png)
 
@@ -191,71 +191,106 @@ IDEA是JetBrains公司的产品，这家公司总部位于捷克共和国的首�
 
 # 三. 常用快捷键
 
-1. 创建内容：Win：alt ⏎		Mac：⌃⇧/
-2. main方法：psvm
-3. 打印语句：sout/soutv
-4. 单行复制：Win：ctrl D      Mac：⌘ D
-5. 单行删除：Win：ctrl Y          Mac：⌘ ⌫
-6. 代码向上/下移动：
-7. 
-
-
-
-
-
-## 3.7 搜索类
-
-
-
-
-
-## 3.8 生成代码
-
-
-
-
-
-
-
-## 3.9 万能快捷键
-
-
-
-
-
-## 3.10 单行注释
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. 快速修复：Win：**Alt ⏎**		Mac：**⌥ ⏎**
+2. main方法：**psvm**
+3. 打印语句：**sout/soutv**
+4. 单行复制：Win：**Ctrl D**      Mac：**⌘ D**
+5. 单行删除：Win：**Ctrl Y**      Mac：**⌘ ⌫**
+6. 代码向上/下移动：Win：**Ctrl shift ↑**    Mac：
+7. 搜索类：Win：**Ctrl N**
+8. 生成代码：Win：**Alt Insert**    Mac：**⌘ N**
+9. 单行注释或多行注释：Win：**Ctrl /**    Mac：**⌃ ⇧ /**
+10. 重命名：Win：**Shift F6**    Mac：**⇧ F6**
+11. for循环：**fori** 固定数值的for循环：**$num.fori**
+12. 代码块包围：Win：**Ctrl Alt T**    Mac：**⌥ ⌘ T**
+13. 点进源码：Win：**Ctrl ⬅️**    Mac： **⌘ ⬅️**
+14. 显示代码结构：Win：**Alt + 7**    Mac：**⌘ 7**
+15. 显示导航栏： Win：**Alt +1**     Mac：**⌘ 1**
 
 # 四. 使用模板
 
+## 4.1 什么是代码模板
 
+它的原理就是配置一些常用代码字母缩写，在输入简写时可以出现你预定义的固定模式的代码，使得开发效率大大提高，同时也可以增加个性化。最简单的例子就是在 Java 中输入 sout 会出现 `System.out.println();`
 
+（一）所处位置：
 
+（1）Live Templates 		
+
+（2）Postfix Completion
+
+![image-20220905111751205](asset/image/image-20220905111751205.png)
+
+（二）区别：
+
+【1】 		
+
+Live Templates 中可以做用户的个性化定制。 		
+
+Postfix Completion 中不能修改原有的后缀自动补全。 		
+
+【2】使用方式不同
+
+Live Templates 是直接输入快捷键按回车，而 Postfix Completion 是输入一个变量加上一个 `.` 号，再加上后缀补全快捷键按回车，然后就可以自动补全。
+
+## 4.2 修改现有模板
+
+![image-20220905112329740](asset/image/image-20220905112329740.png)
+
+## 4.2 自定义模板
+
+方法注释模板：
+
+```java
+/**
+ * @Description: 
+ * @Param: $param$
+ * @Return: $return$
+ * @Author: $user$
+ * @Date: $date$ $time$
+ */  
+```
 
 # 五. 断点调试
 
+## 5.1 常用断点调试快捷键
 
+调试在开发中大量应用： 		
 
+【1】Debug的优化设置：更加节省内存空间： 		
 
+设置Debug连接方式，默认是Socket。 Shared memory 是 Windows 特有的一个属性，一般在Windows系统下建议使用此设置，内存占用相对较少。
 
+【2】常用断点调试快捷键：
 
+<img src="asset/image/image-20220905112857474-2348539.png" alt="image-20220905112857474" style="zoom:50%;" />：一步一步的向下运行代码，不会走入任何方法中。
 
+<img src="asset/image/image-20220905113053793.png" alt="image-20220905113053793" style="zoom:50%;" />：一步一步的向下运行代码，不会走入系统类库的方法中，但是会走入自定义的方法中。
+
+<img src="asset/image/image-20220905113145417.png" alt="image-20220905113145417" style="zoom: 50%;" />：一步一步的向下运行代码，会走入系统类库的方法中，也会走入自定义的方法中。
+
+<img src="asset/image/image-20220905113223505.png" alt="image-20220905113223505" style="zoom: 50%;" />：跳出方法。
+
+<img src="asset/image/image-20220905113317587.png" alt="image-20220905113317587" style="zoom:50%;" />：结束程序。
+
+<img src="asset/image/image-20220905113356487.png" alt="image-20220905113356487" style="zoom:50%;" />：进入到下一个断点，如果没有下一个断点了，就直接运行到程序结束。
+
+<img src="asset/image/image-20220905113442847.png" alt="image-20220905113442847" style="zoom:50%;" />：在当前次取消未执行的断点。
+
+## 5.2 断点条件判断表达式
+
+【1】条件判断： 		
+
+说明：
+
+​		调试的时候，在循环里增加条件判断，可以极大的提高效率，心情也能惧悦。 				
+
+具体操作：
+
+​		在断点处右击调出条件断点。可以在满足某个条件下，实施断点。 
+
+![image-20220905113934644](asset/image/image-20220905113934644.png)
+
+【2】查看表达式的值：
+
+<img src="asset/image/image-20220905114211234.png" alt="image-20220905114211234" style="zoom: 50%;" />
