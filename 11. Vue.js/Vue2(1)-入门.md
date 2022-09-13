@@ -9,6 +9,8 @@ Vue (读音 /vjuː/，类似于 **view**) 是一套用于构建用户界面的**
 
 ## 1.2 起步安装
 
+### 1.2.1 直接在HTM中使用
+
 以如下方式引入Vue.js,分别是开发环境和生产环境
 
 ```html
@@ -18,7 +20,46 @@ Vue (读音 /vjuː/，类似于 **view**) 是一套用于构建用户界面的**
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 ```
 
+### 1.2.2 使用构建工具
 
+打开终端，输入以下命令：
+
+```shell
+npm init vue@latest
+```
+
+这一指令将会安装并执行 [create-vue](https://github.com/vuejs/create-vue)，它是 Vue 官方的项目脚手架工具。你将会看到一些诸如 TypeScript 和测试支持之类的可选功能提示：
+
+```shell
+✔ Project name: … <your-project-name>
+✔ Add TypeScript? … No / Yes
+✔ Add JSX Support? … No / Yes
+✔ Add Vue Router for Single Page Application development? … No / Yes
+✔ Add Pinia for state management? … No / Yes
+✔ Add Vitest for Unit testing? … No / Yes
+✔ Add Cypress for both Unit and End-to-End testing? … No / Yes
+✔ Add ESLint for code quality? … No / Yes
+✔ Add Prettier for code formatting? … No / Yes
+
+Scaffolding project in ./<your-project-name>...
+Done.
+```
+
+如果不确定是否要开启某个功能，你可以直接按下回车键选择 `No`。在项目被创建后，通过以下步骤安装依赖并启动开发服务器：
+
+```shell
+cd <your-project-name>
+npm install
+npm run dev
+```
+
+请注意，生成的项目中的示例组件是使用[组合式 API](https://cn.vuejs.org/guide/introduction.html#composition-api) 和 `<script setup>` 编写的，而非[选项式 API](https://cn.vuejs.org/guide/introduction.html#options-api)。
+
+当你准备将应用发布到生产环境时，请运行：
+
+```shell
+npm run build
+```
 
 ## 1.3 创建Vue实例
 
@@ -93,7 +134,7 @@ new Vue({
 
 **生命周期图示**:
 
-<img src="./asset/Vue/image/lifecycle.png" alt="Vue 实例生命周期" style="zoom: 50%;" />
+<img src="./asset/Vue/image/lifecycle.png" alt="Vue 实例生命周期" style="zoom: 33%;" />
 
 ## 1.5 模板语法
 
@@ -154,7 +195,7 @@ Mustache 语法不能作用在 HTML attribute 上，遇到这种情况应该使�
 
 这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。有个限制就是，每个绑定都只能包含**单个表达式**，所以下面的例子都**不会**生效。
 
-```html
+```js
 <!-- 这是语句，不是表达式 -->
 {{ var a = 1 }}
 
@@ -229,8 +270,6 @@ const vm = new Vue({
   }
 })
 ```
-
-
 
 **侦听器**: 虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。这就是为什么 Vue 通过 `watch` 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。`watch`**属性监听的vm的数据变化的函数名称要和vm的数据名称一样**, 函数有两个参数, 第一个是`newVal新值`, 第二个是`oldVal新值`
 
