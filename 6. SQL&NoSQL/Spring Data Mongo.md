@@ -8,8 +8,6 @@ MongoDB主要由文档(document)、集合(collection)、数据库(database)三�
 2. 多个文档组成一个集合（collection），相当于关系数据库的表
 3. 多个集合组织在一起，就是数据库（database），一个 MongoDB 实例支持多个数据库
 
-
-
 # 二.  快速入门
 
 ## 2.1 引入依赖
@@ -23,15 +21,13 @@ MongoDB主要由文档(document)、集合(collection)、数据库(database)三�
 </dependencies>
 ```
 
-
-
 ## 2.2 编写Entity
 
 ```java
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)\
+@Accessors(chain = true)
 // 此处@Document注解使用的是org.springframework.data.mongodb.core.mapping.Document, collection指定集合名称
 @Document(collection = "article")  
 public class Article {
@@ -43,8 +39,6 @@ public class Article {
     private Integer hits;
 }
 ```
-
-
 
 ## 2.3 编写Dao层接口
 
