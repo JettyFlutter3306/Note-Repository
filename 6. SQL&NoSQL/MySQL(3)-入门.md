@@ -1,6 +1,8 @@
-# 六. DQL
+# MySQL入门3
 
-## 6.1 创建表
+# 一. DQL
+
+## 1.1 创建表
 
 准备四张表：dept(部门表)，emp(员工表)，salgrade(薪资等级表)，bonus(奖金表)：
 
@@ -100,9 +102,9 @@ select * from salgrade;
 select * from bonus;
 ```
 
-## 6.2 单表查询
+## 1.2 单表查询
 
-### 6.2.1 简单的查询：
+### 1.2.1 简单的查询：
 
 ```mysql
 -- 对emp表查询：
@@ -136,7 +138,7 @@ select * from emp order by sal desc; -- desc 降序
 select * from emp order by sal asc, deptno desc; -- 在工资升序的情况下，deptno按照降序排列
 ```
 
-### 6.2.2 where子句
+### 1.2.2 where子句
 
 ```mysql
 -- 查看emp表：
@@ -179,7 +181,69 @@ select * from emp where job = 'SALESMAN' or (job = 'CLERK' and sal >= 1500);
 select * from emp where (job = 'SALESMAN' or job = 'CLERK') and sal >= 1500;
 ```
 
-### 6.2.3 使用函数
+### 1.2.3 使用函数
+
+MySQL中提供了大量函数来简化用户对数据库的操作，比如字符串的处理、日期的运算、数值的运算等等。使用函数可以大大提高SELECT语句操作数据库的能力，同时也给数据的转换和处理提供了方便。 （在sql中使用函数） 		
+
+函数只是对查询结果中的数据进行处理，不会改变数据库中数据表的值。MySQL中的函数主要分为单行函数和多行函数两大类，下面我们将详细讲解这两大类函数。 
+
+**单行函数：**
+
+单行函数是指对每一条记录输入值进行计算，并得到相应的计算结果，然后返回给用户，也就是说，每条记录作为一个输入参数，经过函数计算得到每条记录的计算结果。 			
+
+常用的单行函数主要包括**字符串函数、数值函数、日期与时间函数、流程函数以及其他函数。** 
+
+**多行函数：**
+
+多行函数是指对一组数据进行运算，针对这一组数据（多行记录）只返回一个结果，也称为分组函数。 
+
+```mysql
+-- 函数举例：
+select empno,ename,lower(ename),upper(ename),sal from emp;
+-- 函数的功能：封装了特定的一些功能，我们直接拿过来使用，可以实现对应的功能
+-- 函数作用：为了提高select的能力
+-- 注意：函数没有改变数据自身的值，而是在真实数据的上面进行加工处理，展示新的结果而已。
+select max(sal), min(sal), count(sal), sum(sal), avg(sal) from emp;
+-- 函数的分类：
+-- lower(ename),upper(ename) ：改变每一条结果，每一条数据对应一条结果  -- 单行函数
+-- max(sal),min(sal),count(sal),sum(sal),avg(sal):多条数据，最终展示一个结果  -- 多行函数
+```
+
+
+
+
+
+### 1.2.4 group by
+
+
+
+
+
+### 1.2.5 having
+
+
+
+
+
+
+
+### 1.2.6 总结
+
+
+
+
+
+
+
+## 1.3 多表查询
+
+
+
+
+
+
+
+## 1.4 子查询
 
 
 
@@ -189,37 +253,6 @@ select * from emp where (job = 'SALESMAN' or job = 'CLERK') and sal >= 1500;
 
 
 
-### 6.2.4 group by
-
-
-
-
-
-### 6.2.5 having
-
-
-
-
-
-
-
-### 6.2.6 总结
-
-
-
-
-
-
-
-## 6.3 多表查询
-
-
-
-
-
-
-
-## 6.4 子查询
 
 
 
@@ -238,6 +271,7 @@ select * from emp where (job = 'SALESMAN' or job = 'CLERK') and sal >= 1500;
 
 
 
+# 二. 数据库对象
 
 
 
@@ -247,4 +281,85 @@ select * from emp where (job = 'SALESMAN' or job = 'CLERK') and sal >= 1500;
 
 
 
-# 七. 数据库对象
+# 三. 常用函数
+
+## 3.1 字符串函数
+
+| 名称                               | 描述                                                      |
+| ---------------------------------- | --------------------------------------------------------- |
+| concat(...str)  `...` 表示可变参数 | 拼接字符串，并返回拼接后的字符串                          |
+| insert(str, index, n, newStr)      | 将字符串str从第index位置开始的n个字符替换成字符串newStr   |
+| length(str)                        | 获取字符串str的长度                                       |
+| lower(str)                         | 将字符串str中的每个字符转换为小写                         |
+| upper(str)                         | 将字符串str中的每个字符转换为大写                         |
+| left(str, n)                       | 获取字符串str最左边的n个字符                              |
+| right(str, n)                      | 获取字符串str最右边的n个字符                              |
+| lpad(str, n,  pad)                 | 使用字符串pad在str的最左边进行填充，直到长度为n个字符为止 |
+| rpad(str, n, pad)                  | 使用字符串pad在str的最右边进行填充，直到长度为n个字符为止 |
+| ltrim(str)                         | 去除字符串str左侧的空格                                   |
+| rtrim(str)                         | 去除字符串str右侧的空格                                   |
+| trim(str)                          | 去除字符串str左右两侧的空格                               |
+| replace(str ,oldstr, newstr)       | 用字符串newstr替换字符串str中所有的子字符串oldstr         |
+| reverse(str)                       | 将字符串str中的字符逆序                                   |
+| strcmp(str)                        | 比较字符串str1和str2的大小                                |
+| substring(str)                     | 获取从字符串str的index位置开始的n个字符                   |
+
+## 3.2 数值函数
+
+| 函数              | 描述                           |
+| ----------------- | ------------------------------ |
+| abs(num)          | 返回绝对值                     |
+| ceil(num)         | 返回向上取整                   |
+| floor(num)        | 返回向下取整                   |
+| mod(num1, num2)   | 返回$num1 \% num2$             |
+| pi()              | 返回π                          |
+| pow/power(num, n) | 返回$num^n$                    |
+| rand(num)         | 返回$[0, 1)$随机数             |
+| round(num, n)     | 返回对num四舍五入，保留n位小数 |
+| truncate(num, n)  | 返回num被舍去至小数点后n位的值 |
+
+## 3.3 日期与时间函数
+
+
+
+
+
+
+
+
+
+## 3.4 流程函数
+
+
+
+
+
+
+
+
+
+
+
+## 3.5 JSON函数
+
+
+
+
+
+
+
+
+
+## 3.6 其他函数
+
+
+
+
+
+
+
+
+
+
+
+## 3.2 多行函数
