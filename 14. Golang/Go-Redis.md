@@ -94,7 +94,7 @@ func initializeRedisClient() error {
 
 ## 4.1 string
 
-参考API：
+**API：**
 
 ```go
 // 设置键值
@@ -131,6 +131,8 @@ func TestString(t testing.T) {
 ```
 
 ## 4.2 list
+
+**API：**
 
 ```go
 // 列表插入函数
