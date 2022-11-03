@@ -543,31 +543,49 @@ type 属性设置为 **file** 可以使用文件上传按钮：
 
 ### 4.4.5 下拉框
 
+select 标签可以实现下拉框效果：
 
+```html
+你喜欢的城市：
+<select name="city" multiple>
+    <option value="0">---请选择---</option>
+    <option value="1">哈尔滨市</option>
+    <option value="2" selected>青岛市</option>
+    <option value="3">郑州市</option>
+    <option value="4">西安市</option>
+    <option value="5">天津市</option>
+</select>
+```
 
+multiple 属性表示可以多选，同理也是可以简写，这个是 `multiple="multiple"` 的简写形式。按住 ctrl 或者 ⌘ 可以实现多选。
 
-
-
+selected 表示默认选中，这是 `selected="selected"` 简写形式。
 
 ### 4.4.6 文本域
 
+```html
+自我介绍：
+<textarea rows="10" cols="30">请在这里填写信息。。</textarea>
+```
 
-
-
+rows 和 cols 属性可以指定文本域所占的行数和列数，值越大表示占的面积越大。
 
 ### 4.4.7 label
 
+```html
+<label for="username">用户名：</label>
+<input type="text" name="username" id="username">
+```
 
-
-
-
-
+label 标签用于绑定输入框的焦点，for 属性的值和对应输入框的 id 属性的值对应，点击 label 的名称可以自动获得输入框的焦点。
 
 ### 4.4.8 提交
 
+```html
+<input type="submit">
+```
 
-
-
+把 input 标签的 type 属性设为 **submit** 可以提交表单，把表单数据提交到对应的 url。
 
 ### 4.4.9 其他
 
@@ -577,47 +595,108 @@ type 属性设置为 **file** 可以使用文件上传按钮：
 <input type="hidden" name="uname6" value="123123">
 ```
 
- 
+可以用于隐藏一些数据域例如用户 id，随表单一起提交，对用户不可见。
 
+ **普通按钮：**
 
+```html
+<input type="button" value="普通按钮">
+```
 
+type 属性值为 button，可以获得一个普通的按钮。
 
+**重置按钮：**
 
+```html
+<input type="reset">
+```
 
+**图片按钮：**
 
+```html
+<input type="image" src="img/java核心技术.jpg">
+```
 
+这个不太常用，直接使用 img 标签即可。
 
 ## 4.2 html5新增type类型
 
+### 4.2.1 email
 
+```html
+<input type="email" name="email">
+```
 
+表示电子邮件的输入框，会对输入的电子邮件格式进行校验。
 
+### 4.2.2 url
 
+```html
+<input type="url">
+```
 
+url 类型的 `<input>` 标记是一种用于输入URL地址的文本框。如果所输入的内容是 url 地址格式的文本，则会提交数据到服务器;如果输入的值不符合URL地址格式，则不允许提交，并且会有提示信息。
 
+### 4.2.3 color
 
+```html
+<input type="color">
+```
 
+type 值设置为 color 表示是一个调色板。
 
+### 4.2.4 number
+
+```html
+<input type="number" min="1" max="10" step="3" value="4">
+```
+
+number 类型表示这是录入数字的文本框，可以使用按钮进行加减调节。min 属性设置下限，max 属性设置上限，step 设置步长，value 设置默认值。
+
+### 4.2.5 range
+
+```html
+1<input type="range" min="1" max="10" name="range" step="3">10
+```
+
+range 类型表示这是一个可滑动的滑动条，min 设置下限，max 设置上限，step 设置每次滑动的步长。
+
+### 4.2.6 date
+
+```html
+<input type="date">
+```
+
+date 类型表示一个日期选择器，可以鼠标设置日期。
+
+同样还有只选中任意月的 month：
+
+```html
+<input type="month">
+```
+
+选中任意周：
+
+```html
+<input type="week">
+```
 
 ## 4.3 html5新增属性
 
+### 4.3.1 默认提示
 
+```html
+<input type="text" placeholder="输入您的姓名">
+```
 
+### 4.3.2 自动获取焦点
 
+```html
+<input type="text" autofocus>
+```
 
+### 4.3.3 必填项
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```html
+<input type="text" required>
+```
