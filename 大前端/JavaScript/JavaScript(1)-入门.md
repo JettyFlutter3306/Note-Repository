@@ -1,4 +1,4 @@
-# JavaScript-入门篇
+# JavaScript-入门篇1
 
 # 一. 快速入门
 
@@ -170,13 +170,13 @@ console.log(true == "true")  // false
 数据类型不同，直接返回 false 如果类型相同，才会比较内容：
 
 ```js
-console.log(1 === "1")       // false
-console.log(1 === true)      // false
+console.log(1 === "1")        // false
+console.log(1 === true)       // false
 console.log(1 === "true")     // false
 console.log("1" === true)     // false
 console.log("1" === "true")   // false
 console.log(true === "true")  // false
-console.log("123" === "123")
+console.log("123" === "123")  // true
 ```
 
 **字符串运算：**
@@ -471,6 +471,9 @@ var arr = [1, 2, 3, 4, 5]
 // 删除元素从指定索引开始，第二个参数指定数量
 arr.splice(1, 3)
 console.log(arr)  // [1, 5]
+// 如果第二个参数为0意思就是在指定索引位置插入元素
+arr.splice(1, 0, 3)
+console.log(arr)  // [1, 3, 2, 3, 4, 5]
 ```
 
 11. **sort**
@@ -485,43 +488,441 @@ console.log(arr.sort((a, b) => b - a))  // [9, 8, 6, 5, 1]
 
 # 四. 对象
 
+## 4.1 JS常用对象
 
+### 4.1.1 String
 
+JS 基于对象的脚本语言，有类和对象,但是没有封装、继承、多态，JavaScript 中有一些浏览器直接识别并使用的对象,常见的对象有 Array，String 对象，Math 对象，Number 对象，Date 对象等等。 		
 
+string 和 Java 中的 String 很类似，的常用方法：
 
+- **charAt**：返回在指定位置的字符。
 
+```js
+var s = "HelloWorld"
+console.log(s.charAt(1))  // e
+```
 
+- **charCodeAt**：返回在指定的位置的字符的 Unicode 编码。
+- **concat**：连接两个或更多字符串，并返回新的字符串。
 
+```js
+var s = "Hello"
+console.log(s.concat("World", "123", "000"))  // HelloWorld123000
+```
 
+- **fromCharCode**：将 Unicode 编码转为字符。
+- **indexOf**：返回某个指定的字符串值在字符串中首次出现的位置。第二个参数可以省略，则默认从开头开始查找，否则从对应下标开始搜索。
 
+```js
+var s = "HelloWorld"
+console.log(s.indexOf("World"))  // 5
+```
 
-# 五. 事件
+- **lastIndexOf**：从后向前搜索字符串，并从起始位置(0)开始计算返回字符串最后出现的位置。第二个参数可以省略，则默认从开头开始查找，否则从对应下标开始搜索。
 
+```js
+var s = "HelloWorld"
+console.log(s.lastIndexOf("World"))  // 5
+```
 
+- **includes**：查找字符串中是否包含指定的子字符串。
 
+```js
+var s = "HelloWorld"
+console.log(s.includes("World"))  // true
+```
 
+- **match**：查找找到一个或多个正则表达式的匹配。
 
+```js
+var s = "HelloWorld"
+console.log(s.match(/.*World/)[0])  // HelloWorld
+```
 
+- **repeat**：重复指定次数，并返回。
 
+```js
+var s = "HelloWorld"
+console.log(s.repeat(2))  // HelloWorldHelloWorld
+```
 
+- **replace**：使用正则匹配，并替换，返回替换后的字符串：
 
+```js
+var s = "HelloWorld"
+console.log(s.replace(/H.*?o/, "HaloHa"))  // HaloHaWorld
+```
 
+- **search**：根据正则表达式查找字符串，返回索引：
 
+```js
+var s = "HelloWorld"
+console.log(s.search(/Wo/))  // 5
+```
 
+- **slice**：提取字符串的片断，并在新的字符串中返回被提取的部分。
 
-# 六. BOM
+```js
+var s = "HelloWorld"
+// 不写任何参数，返回自身
+console.log(s.slice())  // HelloWorld
+// 只写第一个参数，则从start截取到末尾
+console.log(s.slice(2))  // lloWorld
+// 写两个参数，则截取[start, end)
+console.log(s.slice(0, 3))  // Hel
+```
 
+- **split**：根据正则表达式把字符串分割为字符串数组。
 
+```js
+var s = "Hello World  cat dog"
+console.log(s.split(/\s+/))  // ['Hello', 'World', 'cat', 'dog']
+// 第二个参数指定返回结果的个数
+console.log(s.split(/\s+/, 2))  // ['Hello', 'World']
+```
 
+- **startsWith**：查看字符串是否以指定的子字符串开头。
 
+```js
+var s = "HelloWorld"
+console.log(s.startsWith("He"))  // true
+```
 
+- **substr**：从起始索引号提取字符串中指定数目的字符。
 
+```js
+var s = "HelloWorld"
+console.log(s.substr(3, 2))  // lo
+```
 
-# 七. DOM
+- **substring**：提取字符串中两个指定的索引号之间的字符，和 slice 类似。
 
+```js
+var s = "HelloWorld"
+console.log(s.substring(1, 3))  // el
+```
 
+- **toLowerCase**：把字符串转换为小写。
 
+```js
+var s = "HelloWorld"
+console.log(s.toLowerCase())  // helloworld
+```
 
+- **toUpperCase**：把字符串转换为大写。
+- **trim**：去除字符串两边的空白。
 
+```js
+var s = "    HelloWorld    "
+console.log(s.trim())  // HelloWorld
+```
 
+- **valueOf**：返回某个字符串对象的原始值。
 
+```js
+var s = "'HelloWorld   123"
+console.log(s.valueOf())  // 'HelloWorld   123
+```
+
+### 4.1.2 Number
+
+Number 对象是数字对象，包含了常用的操作数字的方法以及常用的属性：
+
+- `Number.MAX_VALUE`：最大值
+
+- `Number.MIN_VALUE`：最小值
+- `Number.NaN`：非数字
+- `Number.NEGATIVE_INFINITY`：负无穷，在溢出时返回
+- `Number.POSITIVE_INFINITY`：正无穷，在溢出时返回
+- `Number.EPSILON`：表示 1 和比最接近 1 且大于 1 的最小 Number 之间的差别
+- `Number.MIN_SAFE_INTEGER`：最小安全整数
+- `Number.MAX_SAFE_INTEGER`：最大安全整数
+
+```js
+console.log(Number.MAX_VALUE)  			// 1.7976931348623157e+308
+console.log(Number.MIN_VALUE)  			// 5e-324
+console.log(Number.MAX_SAFE_INTEGER)   // 9007199254740991
+console.log(Number.MIN_SAFE_INTEGER)   // -9007199254740991
+console.log(Number.NaN)  				// NaN
+console.log(Number.NEGATIVE_INFINITY)  // -Infinity
+console.log(Number.POSITIVE_INFINITY)  // Infinity
+console.log(Number.EPSILON)  			// 2.220446049250313e-16
+```
+
+**数字方法：**
+
+- `Number.parseFloat()`：将字符串转换成浮点数，和全局方法 parseFloat() 作用一致。
+- `Number.parseInt()`：将字符串转换成整型数字，和全局方法 parseInt() 作用一致。
+- `Number.isFinite()`：判断传递的参数是否为有限数字。
+- `Number.isInteger()`：判断传递的参数是否为整数。
+- `Number.isNaN()`：判断传递的参数是否为 isNaN()。
+- `Number.isSafeInteger()`：判断传递的参数是否为安全整数。
+
+```js
+var i = 10 % 0
+var j = 10 / 0
+console.log(Number.isNaN(i))                                // true
+console.log(Number.isFinite(j))                             // false
+console.log(Number.isSafeInteger(Number.MAX_VALUE))         // false
+console.log(Number.isSafeInteger(Number.MAX_SAFE_INTEGER))  // true
+console.log(parseInt("123"))                                // 123
+console.log(parseFloat("123.05"))                           // 123.05
+```
+
+### 4.1.3 Math
+
+**常用方法：**
+
+- **round**：四舍五入
+- **floor**：向下取整
+- **ceil**：向上取整
+- **max**：获取最大值
+- **min**：获取最小值
+- **random**：生成[0,1)之间的随机数
+- **sqrt**：平方根
+
+```js
+console.log(Math.round(1.55))     // 2
+console.log(Math.floor(1.5))      // 1
+console.log(Math.ceil(1.5))       // 2
+console.log(Math.max(1, 2, 3))    // 3
+console.log(Math.min(1, 2, 3))    // 1
+console.log(Math.random())        // 0.3276223873635571
+console.log(Math.sqrt(16))        // 4
+```
+
+**常用属性：**
+
+- **PI**：圆周率
+
+- **E**：自然对数
+
+```js
+console.log(Math.PI)  // 3.141592653589793
+console.log(Math.E)   // 2.718281828459045
+```
+
+### 4.1.4 Date
+
+Date 对象用于处理日期与时间。
+
+以下四种方法同样可以创建 Date 对象：
+
+```js
+var d = new Date()
+var d = new Date(milliseconds)
+var d = new Date(dateString)
+var d = new Date(year, month, day, hours, minutes, seconds, milliseconds)
+```
+
+**常用方法：**
+
+- **getDate**：从 Date 对象返回一个月中的某一天 (1 ~ 31)
+- **getDay**：从 Date 对象返回一周中的某一天 (0 ~ 6)
+- **getFullYear**：从 Date 对象以四位数字返回年份
+- **getHours**：返回 Date 对象的小时 (0 ~ 23)
+- **getMilliseconds**：返回 Date 对象的毫秒(0 ~ 999)
+
+- **getMinutes**：返回 Date 对象的分钟 (0 ~ 59)
+- **getMonth**：从 Date 对象返回月份 (0 ~ 11)
+- **getSeconds**：返回 Date 对象的秒数 (0 ~ 59)
+- **getTime**：返回 1970 年 1 月 1 日至今的毫秒数
+- **getTimezoneOffset**：返回本地时间与格林威治标准时间 (GMT) 的分钟差
+- **getUTCDate**：根据世界时从 Date 对象返回月中的一天 (1 ~ 31)
+- **getUTCDay**：根据世界时从 Date 对象返回周中的一天 (0 ~ 6)
+- **getUTCFullYear**：根据世界时从 Date 对象返回四位数的年份
+- **getUTCHours**：根据世界时返回 Date 对象的小时 (0 ~ 23)
+- **getUTCMilliseconds**：根据世界时返回 Date 对象的毫秒(0 ~ 999)
+- **getUTCMinutes**：根据世界时返回 Date 对象的分钟 (0 ~ 59)
+- **getUTCMonth**：根据世界时从 Date 对象返回月份 (0 ~ 11)
+- **getUTCSeconds**：根据世界时返回 Date 对象的秒钟 (0 ~ 59)
+- **parse**：返回1970年1月1日午夜到指定日期（字符串）的毫秒数
+- **setDate**：设置 Date 对象中月的某一天 (1 ~ 31)
+- **setFullYear**：设置 Date 对象中的年份（四位数字）
+- **setHours**：设置 Date 对象中的小时 (0 ~ 23)
+- **setMilliseconds**：设置 Date 对象中的毫秒 (0 ~ 999)
+- **setMinutes**：设置 Date 对象中的分钟 (0 ~ 59)
+- **setMonth**：设置 Date 对象中月份 (0 ~ 11)
+- **setSeconds**：设置 Date 对象中的秒钟 (0 ~ 59)
+- **setTime**：setTime() 方法以毫秒设置 Date 对象
+- **toDateString**：把 Date 对象的日期部分转换为字符串
+- **toISOString**：使用 ISO 标准返回字符串的日期格式
+- **toJSON**：以 JSON 数据格式返回日期字符串
+- **toTimeString**：把 Date 对象的时间部分转换为字符串
+- **toUTCString**：根据世界时，把 Date 对象转换为字符串
+- **UTC**：根据世界时返回 1970 年 1 月 1 日 到指定日期的毫秒数
+
+```js
+// 在程序中 西方的月份编号从0开始
+var today = new Date()
+var d1 = new Date("October 13, 1975 11:13:00")
+var d2 = new Date(79,5,24)
+var d3 = new Date(79, 5, 24, 11, 33, 0)
+console.log(d1)  // Mon Oct 13 1975 11:13:00 GMT+0800 (中国标准时间)
+console.log(d2)  // Sun Jun 24 1979 00:00:00 GMT+0800 (中国标准时间)
+console.log(d3)  // Sun Jun 24 1979 11:33:00 GMT+0800 (中国标准时间)
+```
+
+```js
+var d4 = new Date(2048, 0, 13, 16, 51, 20, 123)
+// set... 方法同理
+console.log(d4)               // Mon Jan 13 2048 16:51:20 GMT+0800 (中国标准时间)
+console.log(d4.getYear())     // 148
+console.log(d4.getFullYear()) // 2048
+console.log(d4.getMonth())    // 0
+console.log(d4.getDate())     // 13
+console.log(d4.getHours())    // 16
+console.log(d4.getMinutes())  // 51
+console.log(d4.getSeconds())  // 20
+console.log(d4.getMilliseconds())  // 123
+var d5 = new Date(2048, 0, 13, 16, 51, 20, 456)
+console.log(d4 < d5)          // true
+```
+
+**时间日期格式化扩展函数：**
+
+```js
+// 使用原型链进行扩展Date类的方法
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,                 		// 月份
+        "d+": this.getDate(),                    		// 日
+        "h+": this.getHours(),                   		// 小时
+        "m+": this.getMinutes(),                 		// 分
+        "s+": this.getSeconds(),                 		// 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3),   // 季度
+        "S": this.getMilliseconds()             		// 毫秒
+    }
+
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").slice(4 - RegExp.$1.length))
+    }
+
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(
+                RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).slice(("" + o[k]).length)))
+        }
+    }
+    return fmt
+}
+var fmt = new Date(2000, 9, 1, 8, 0, 0).format("yyyy-MM-dd hh:mm:ss")
+console.log(fmt)  // 2000-10-01 08:00:00
+```
+
+## 4.2 JS自定义对象
+
+JS 除了一些常用方法和类以外,允许我们自己定义对象,在 JS 中自定义对象有三种可用的语法格式,分别为：
+
+1. 调用系统的构造函数创建对象：
+
+```js
+// 实例化对象
+var obj = new Object()
+// 给对象添加属性
+obj.name = "洛必达"
+obj.age = 20
+obj.gender = "男"
+// 给对象添加方法
+obj.eat = function (food) {
+    console.log(this.name + "正在吃" + food)
+}
+
+// 查看对象属性
+console.log(obj.name)
+console.log(obj.age)
+console.log(obj.gender)
+// 调用对象方法
+obj.eat("蛋糕")
+```
+
+2. 自定义构造函数创建对象：
+
+```js
+function Person(pname, page) {
+    this.pname = pname
+    this.page = page
+    this.eat = function (food) {
+        console.log(this.page + "岁的" + this.pname + "正在吃" + food)
+    }
+}
+
+var p1 = new Person("洛必达", 10)
+// 查看对象属性
+console.log(p1.pname)
+console.log(p1.page)
+// 调用对象方法
+p1.eat("油条")
+```
+
+3. 字面量的方式创建对象，也就是 JSON：
+
+```js
+var person = {
+    name: "晓明",
+    gender: "男",
+    age: 10,
+    eat: function (food) {
+        console.log(this.age + "岁的" + this.gender + "孩儿" + this.name + "正在吃" + food)
+    }
+}
+
+// 查看对象属性
+// 调用对象方法
+console.log(person.name)
+console.log(person.gender)
+console.log(person.age)
+person.eat("馒头")
+```
+
+## 4.3 JS原型介绍
+
+当我们用构造方法创建一个类时，在内存会预先调用构造方法创建一个对象，这对象我们称之为原型对象，构造方法对象中有一个 prototype 属性指向该对象，原型对象中有一个 constructor 属性指向构造方法。获得一个类的原型对象可以通过 `ClassName.prototype `的方式获得。
+
+![image-20221105172223438](asset/image/image-20221105172223438.png)
+
+```js
+function Person(pname, page) {
+    this.pname = pname
+    this.page = page
+
+    this.eat = function (food) {
+        console.log(this.page + "岁的" + this.pname + "正在吃" + food)
+    }
+}
+
+console.log(Person)  // Constructor对象  构造方法对象
+console.log(Person.prototype)  // constructor属性指向构造方法对象
+```
+
+### 4.3.1 当前类对象和原型的关系
+
+当前类的每一个对象内部有一个 _proto_的一个属性,指向他们的原型, 当我们用对象获取属性和调用方法时,如果当前对象中没有，那么会去他们所对应的原型对象中去找，**也就是说,我们通过对原型的操作可以实现为一个类所有的对象添加属性和方法。**
+
+```js
+// 给Person所有的对象增加属性和方法
+Person.prototype.gender = "男"
+Person.prototype.sleep = function () {
+    console.log(this.page + "岁的" + this.gender + "孩儿" + this.pname + "正在睡觉")
+}
+var p1 = new Person("张三", 10)
+p1.eat("蛋挞")
+p1.sleep()
+
+var p2 = new Person("李四", 8)
+p2.eat("牛角面包")
+p2.sleep()
+```
+
+## 4.4 JS原型链
+
+一个类的原型是一个Object类的对象,也就是说,原型也有一个_proto_属性，指向 Object 的原型对象,那么也就是说 `Person.prototype` 中没有的属性和方法会继续向 `Object.prototype` 去找,也就是说,我们在 Object 原型中添加的属性和方法,我们在 person1 和 person2 中也可以使用。那么这种连续的 _proto_属性指向就形成了原型链。
+
+ ```js
+ // 给所有的对象增加属性和方法
+ Object.prototype.gender = "男"
+ Object.prototype.sleep = function () {
+     console.log(this.page + "岁的" + this.gender + "孩儿" + this.pname + "正在睡觉")
+ }
+ ```
