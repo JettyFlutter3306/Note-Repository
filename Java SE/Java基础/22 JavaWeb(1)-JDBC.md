@@ -147,7 +147,7 @@ public class JdbcDriverDemo {
 
 在jdbc连接添加上参数 `allowPublicKeyRetrieval=true` 即可，注意参数间用 `&`。
 
-### 1.4 驱动的加载
+## 1.4 驱动的加载
 
 加载数据库驱动时,我们可以通过自己创建一个实例的方式,然后去注册驱动：
 
@@ -173,13 +173,55 @@ public class Driver extends NonRegisteringDriver implements java.sql.Driver {
 
 在查看 Driver 的源代码时我们发现,该类内部有一个静态代码块,在代码块中就是在实例化一个驱动并在驱动中心注册.静态代码块会在类进入内存时执行,也就是说,我们只要让该类字节码进入内存,就会自动完成注册,不需要我们手动去 new。
 
-所以我们在代码中直接使用反射,通过 `Class.forName("com.mysql.jdbc.Driver")`,加载该类进入内存即可 		
+所以我们在代码中直接使用反射,通过 `Class.forName("com.mysql.jdbc.Driver")`,加载该类进入内存即可。我们继续查看 jar 包发现,jar 包中已经默认配置了驱动类的加载。
 
-​    我们继续查看 jar 包发现,jar 包中已经默认配置了驱动类的加载。
-
-jar--META-INF--services--java.sql.Driver--com.mysql.jdbc.Driver,在加载jar包时,会自动读取该内容并加载驱动,所以我们不去编写Class.forName("com.mysql.jdbc.Driver"),程序也是可以自动完成加载驱动的。
+jar--META-INF--services--java.sql.Driver--com.mysql.jdbc.Driver,在加载jar包时,会自动读取该内容并加载驱动,所以我们不去编写 `Class.forName("com.mysql.jdbc.Driver")`，程序也是可以自动完成加载驱动的。
 
 **这就是 Java 的 SPI 机制。**
+
+## 1.5 封装工具类
+
+需要简单的连接时，我们可以封装一个 JDBC 工具类简化连接过程，而且使用了 properties 配置文件优化：
+
+```java
+public class JdbcUtil {
+
+    private static final String driver;
+    private static final String url;
+    private static final String user;
+    private static final String password;
+
+    static {
+        try {
+            Properties properties = new Properties();
+            InputStream is = PropertiesDemo.class.getResourceAsStream("/jdbc.properties");
+            try {
+                properties.load(is);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            driver = properties.getProperty("driver");
+            url = properties.getProperty("url");
+            user = properties.getProperty("user");
+            password = properties.getProperty("password");
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+
+
 
 # 二. JDBC完成CRUD
 
@@ -930,14 +972,16 @@ public abstract class BaseDao<T> {
 在 resources 文件夹下面创建一个 *jdbc.properties* 文件，内容如下：
 
 ```properties
-driver="com.mysql.cj.jdbc.Driver"
-url="jdbc:mysql://127.0.0.1:3306/test?useSSL=false&useUnicode=true\
-  &characterEncoding=utf-8&serverTimeZone=Asia/ShangHai"
-user="root"
-password="root1234"
+driver=com.mysql.cj.jdbc.Driver
+url=jdbc:mysql://127.0.0.1:3306/test?useSSL=false&useUnicode=true\
+  &characterEncoding=utf-8&serverTimeZone=Asia/ShangHai
+user=root
+password=root1234
 initialCapacity=5
 maxCapacity=10
 ```
+
+**注意：值千万不要加引号，不然程序无法识别。**
 
 **声明PropertiesUtil工具类：**
 
