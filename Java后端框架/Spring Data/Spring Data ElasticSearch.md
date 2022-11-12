@@ -2,10 +2,9 @@
 
 # 一. Spring Data Elasticsearch 简介
 
-​	**Elasticsearch**是一个实时的分布式搜索和分析引擎。它底层封装了Lucene框架,可以提供分布式多用户的全文搜索服务。
-​	**Spring Data ElasticSearch**是**SpringData**技术对**ElasticSearch**原生API封装之后的产物,它通过对原生API的封装,使得程序员可以简单的对**ElasticSearch**进行各种操作。
+**Elasticsearch** 是一个实时的分布式搜索和分析引擎。它底层封装了 Lucene 框架,可以提供分布式多用户的全文搜索服务。
 
-
+**Spring Data ElasticSearch** 是 **SpringData**技术对 **ElasticSearch** 原生 API 封装之后的产物,它通过对原生API的封装,使得程序员可以简单的对 **ElasticSearch** 进行各种操作。
 
 # 二. 快速入门
 
@@ -21,8 +20,6 @@
 </dependencies>
 ```
 
-
-
 ## 2.2 配置YMAL文件
 
 ```yaml
@@ -31,8 +28,6 @@ spring:
     rest:
       uris: http://127.0.0.1:9200
 ```
-
-
 
 ## 2.3 编写Entity
 
@@ -62,19 +57,15 @@ public class Article {
 }
 ```
 
-
-
 ## 2.4 编写Dao层接口
 
-​	自定义Dao层接口继承自**ElasticsearchRepository**,然后就获得了
+​	自定义Dao层接口继承自 **ElasticsearchRepository**，然后就获得了CRUD 方法：
 
 ```java
 public interface ArticleDao extends ElasticsearchRepository<Article, Integer> {
 
 }
 ```
-
-
 
 ## 2.5 测试
 
@@ -93,11 +84,9 @@ public void testSave() {
 }
 ```
 
-
-
 # 三. 命名规则查询
 
-**Elasticsearch**的命名规则和**JPA**基本一致:
+**Elasticsearch** 的命名规则和 **JPA** 基本一致:
 
 | 关键字        | 命名规则              | 解释                       | 示例                  |
 | ------------- | --------------------- | -------------------------- | --------------------- |
@@ -107,8 +96,6 @@ public void testSave() {
 | not           | findByFieldNot        | 根据Field获得补集数据      | findByTitleNot        |
 | between       | findByFieldBetween    | 获得指定范围的数据         | findByPriceBetween    |
 | lessThanEqual | findByFieldLessThan   | 获得小于等于指定值的数据   | findBy                |
-
-
 
 # 四. 接口继承分析
 
