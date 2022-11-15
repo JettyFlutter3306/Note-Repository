@@ -791,12 +791,12 @@ public abstract class BaseDao<T> {
     public List<T> query(Class<T> clazz, String sql, Object... args) {
         List<T> list = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, password); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql); 
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             Class.forName(driver);
             for (int i = 0; i < args.length; i++) {
                 preparedStatement.setObject(i + 1, args[i]);
             }
+            ResultSet resultSet = preparedStatement.executeQuery();
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 // 设置可以访问私有属性
