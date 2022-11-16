@@ -79,12 +79,9 @@ mvn -v
 maven 的工作需要从仓库下载一些 jar 包，如下图所示，本地的项目 A、项目 B 等都会通过 maven 软件从远程仓库（可以理解为互联网上的仓库）下载 jar 包并存在本地仓库，本地仓库 就是本地文 件夹，当第二次需要此 jar 包时则不再从远程仓库下载，因为本地仓库已经存在了，可以将本地仓库 理解为缓存，有了本地仓库就不用每次从远程仓库下载了。
 
 - **本地仓库** ：用来存储从远程仓库或中央仓库下载的插件和 jar 包，项目使用一些插件或 jar 包， 优先从本地仓
-  库查找 默认本地仓库位置在 ${user.dir}/.m2/repository，${user.dir}表示windows 用户目录。
-- **远程仓库**：如果本地需要插件或者 jar 包，本地仓库没有，默认去远程仓库下载。 远程仓库可以在互联网内也
-  可以在局域网内。
-- **中央仓库** ：在 maven 软件中内置一个远程仓库地址 http://repo1.maven.org/maven2 ，它是中 央仓库，服务
-  于整个互联网，它是由 Maven 团队自己维护，里面存储了非常全的 jar 包，它包 含了世界上大部分流行的开源
-  项目构件。
+  库查找 默认本地仓库位置在 `${user.dir}/.m2/repository`，`${user.dir}` 表示 windows 用户目录。
+- **远程仓库**：如果本地需要插件或者 jar 包，本地仓库没有，默认去远程仓库下载。 远程仓库可以在互联网内也可以在局域网内。
+- **中央仓库** ：在 maven 软件中内置一个远程仓库地址 http://repo1.maven.org/maven2 ，它是中 央仓库，服务于整个互联网，它是由 Maven 团队自己维护，里面存储了非常全的 jar 包，它包 含了世界上大部分流行的开源项目构件。
 
 ### 2.2.2 Maven的本地仓库配置
 
@@ -95,8 +92,7 @@ maven 的工作需要从仓库下载一些 jar 包，如下图所示，本地的
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <!--本地仓库位置-->
-    <localRepository>E:\LocalRepository</localRepository>
-    ...
+    <localRepository>E:/LocalRepository</localRepository>
 </settings>
 ```
 
@@ -120,16 +116,16 @@ maven 的工作需要从仓库下载一些 jar 包，如下图所示，本地的
     <profile>
         <id>jdk-1.8</id>
         <activation>
-          	<activeByDefault>true</activeByDefault>
-        	<jdk>1.8</jdk>
+            <activeByDefault>true</activeByDefault>
+            <jdk>1.8</jdk>
         </activation>
-      	<properties>
-       		<maven.compiler.source>1.8</maven.compiler.source>
-        	<maven.compiler.target>1.8</maven.compiler.target>
-        	<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-      	</properties>
+        <properties>
+            <maven.compiler.source>1.8</maven.compiler.source>
+            <maven.compiler.target>1.8</maven.compiler.target>
+            <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        </properties>
     </profile>
-  </profiles>
+</profiles>
 ```
 
 
@@ -320,7 +316,7 @@ maven 通过执行一些简单命令即可实现上边生命周期的各各过�
                 <target>11</target>
             </configuration>
         </plugin>
-        <!--使单元测试不收项目编译影响-->
+        <!--使单元测试不受项目编译影响-->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
