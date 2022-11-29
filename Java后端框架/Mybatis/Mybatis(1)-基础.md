@@ -601,6 +601,22 @@ public interface EmpMapper {
 </select>
 ```
 
+假如有多个引用数据类型，那么就可以使用 `.` 符号访问各自属性，这样就可以区分开来：
+
+```java
+public interface EmpMapper {
+    List<Emp> selectByCondition(@Param("ea") Emp empA, @Param("eb") Emp empB);
+}
+```
+
+```xml
+<select id="selectByCondition" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{ea.name}
+    and id = #{eb.id}
+</select>
+```
+
 ## 4.3 完成DML操作
 
 要完成增删改操作，那么只需要在 Mapper 映射文件中使用 *insert*、*delete*、*update* 标签即可：
