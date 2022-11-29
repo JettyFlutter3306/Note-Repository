@@ -378,35 +378,339 @@ password=root
 
 # 四. DAO模式开发
 
+普通模式，也称为传统 DAO 模式，就是在传统 DAO 模式下，定义接口和实现类，如：
 
+```java
+public interface EmpDao { }
+class EmpDaoImpl implements EmpDao { }
+```
 
+在实现类中，用 SqlSession 对象调用 *select*、*insert*、*delete*、*update* 等方法实现。目前极为少见，在传统模式下，我们需要知道 SqlSession 对象实现 CRUD 和参数传递的处理。
 
+## 4.1 查询的三种方式
 
+SqlSession 类内置了三个用于查询数据库的 API：
 
+- **selectOne**：查询单个对象。
+- **selectList**：将查询的结果封装成 List 集合。
+- **selectMap**：将查询的结果封装成 Map 集合，Key 通常设为对象的主键。
+
+声明 Emp 实体类：
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+public class Emp {
+    private Integer id;
+    private String name;
+    private String job;
+    private Integer mgr;
+    private Date hireDate;
+    private Double sal;
+    private Double comm;
+    private Integer deptId;
+}
+```
+
+编写 *EmpMapper.xml* 映射文件，是用 *select* 标签编写 SQL 语句，表名可以用飘号包裹起来以防和保留字冲突：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.codeArt.mapper.EmpMapper">
+    <select id="selectOne" resultType="org.codeArt.pojo.Emp">
+        select * from `emp`
+        where id = 7499
+    </select>
+
+    <select id="selectAll" resultType="org.codeArt.pojo.Emp">
+        select * from `emp`
+    </select>
+
+    <select id="selectMap" resultType="org.codeArt.pojo.Emp">
+        select * from `emp`
+    </select>
+</mapper>
+```
+
+在 *sqlMapConfig.xml* 中导入 *EmpMapper.xml* 映射文件：
+
+```xml
+<mappers>
+    <mapper resource="org/codeArt/mapper/EmpMapper.xml"/>
+</mappers>
+```
+
+创建测试类 *TestEmp*：
+
+```java
+public class TestEmp {
+
+    private SqlSession session;
+
+    @Before
+    public void before() throws IOException {
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        InputStream is = Resources.getResourceAsStream("sqlMapperConfig.xml");
+        SqlSessionFactory factory = builder.build(is);
+        // 设置自动提交事务
+        session = factory.openSession(true);
+    }
+
+    @After
+    public void after() {
+        session.close();
+    }
+    
+    @Test
+    public void testSelectOne() {
+        Emp emp = session.selectOne("selectOne");
+        System.out.println(emp);
+    }
+
+    @Test
+    public void testSelectAll() {
+        List<Emp> list = session.selectList("org.codeArt.mapper.EmpMapper.selectAll");
+        list.forEach(System.out::println);
+    }
+
+    @Test
+    public void testSelectMap() {
+        // selectMap第二个参数需要指定Key的值，这里设置了实体类的id
+        Map<Integer, Emp> map = session.selectMap("org.codeArt.mapper.EmpMapper.selectMap", "id");
+        for (Map.Entry<Integer, Emp> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }  
+}
+```
+
+使用 SqlSession 查询结果需要指定 *select* 标签的 id 的命名空间，因为假如你在别的 Mapper 文件中声明了同样的 id 那么就会冲突，加上 namespace 就不会冲突。
+
+## 4.2 传递参数的方式
+
+当你编写动态 SQL 时，那么就需要传递参数。
+
+### 4.2.1 单个基础数据类型
+
+参数为单个基本数据类型时，可以使用 `#{}` 或者 `${}` 作为占位符表示传递进来的参数，**大括号内可以随便写**，Mybatis 会自动判断，但是最好见名知意：
+
+```xml
+<select id="selectOne" resultType="org.codeArt.pojo.Emp" parameterType="int">
+    select * from `emp`
+    where id = #{id}
+</select>
+```
+
+*parameterType* 即使不写，Mybatis 也会自动判断。*parameterType* 表示参数的类型。
+
+`#{}` 占位符表示 Mybatis 底层使用 PreparedStatement 对象，然后将占位符替换为 `?`，进行一个预处理操作，可以防止 SQL 注入风险，这个最常用。
+
+`${}` 占位符表示 Mybatis 底层使用 Statement 对象，然后直接使用字符串拼接 SQL 语句，没有预处理操作，不能防止 SQL 注入。`#{}` 可以做的参数映射操作，`${}` 同样可以做。
+
+### 4.2.2 多个基础数据类型
+
+假如传入多个基本数据类型，包括 String，那么可以使用以下几种方式传递参数：
+
+1. `@Param` 注解：
+
+定义在 DAO 层接口，相当于给参数起别名，在 mapper 文件中，使用 `#{}` 做一个映射即可。
+
+```java
+public interface EmpMapper {
+    Emp selectByNameAndId(@Param("name") String name, @Param("id") Integer id);
+}
+```
+
+```xml
+<select id="selectByNameAndId" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{name}
+    and id = #{id}
+</select>
+```
+
+假如 `@Param` 注解的值和参数名一样，那么就可以省略注解。
+
+2. 使用 `arg` 预置标识符：
+
+`arg` 标识符表示从参数列表索引 0 开始计数，`arg0` 表示索引 0 的参数，`arg1` 表示索引 1 的参数。
+
+```xml
+<select id="selectByNameAndId" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{arg0}
+    and id = #{arg1}
+</select>
+```
+
+3. 使用 `param` 预置标识符：
+
+`param` 标识符表示从参数顺序 1 开始计数，`param1` 表示第一个参数，`param2` 表示第二个参数。
+
+```xml
+<select id="selectByNameAndId" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{param1}
+    and id = #{param2}
+</select>
+```
+
+### 4.2.3 Map集合作参数
+
+Map 集合也可以作为参数，使用 `#{}` 与 Map 集合的 Key 做映射即可：
+
+```java
+public interface EmpMapper {
+    List<Emp> selectByCondition(Map<String, Object> condition);
+}
+```
+
+`#{}` 表示 Key，映射为 Value：
+
+```xml
+<select id="selectByCondition" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{name}
+    and id = #{id}
+</select>
+```
+
+### 4.2.4 引用类型作参数
+
+普通的 POJO 作为参数也是跟 Map 一样，使用 `#{}` 作为属性映射成值即可。
+
+```java
+public interface EmpMapper {
+    List<Emp> selectByCondition(Emp emp);
+}
+```
+
+`#{}` 在这里表示实体类的属性名称，映射成设定的值。
+
+```xml
+<select id="selectByCondition" resultType="org.codeArt.pojo.Emp">
+    select * from `emp`
+    where name = #{name}
+    and id = #{id}
+</select>
+```
+
+## 4.3 完成DML操作
+
+要完成增删改操作，那么只需要在 Mapper 映射文件中使用 *insert*、*delete*、*update* 标签即可：
+
+```xml
+<mapper namespace="org.codeArt.mapper.EmpMapper">
+    <insert id="insertOne">
+        insert into
+            `emp`
+        values (default, #{name}, #{job}, #{mgr}, #{hireDate}, #{sal}, #{comm}, #{deptId})
+    </insert>
+    
+    <update id="updateOne">
+        update
+            `emp`
+        set
+            name = #{name},
+            sal = #{sal}
+        where
+            id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        delete from `emp` where id = #{id}
+    </delete>
+</mapper>
+```
+
+编写测试方法：
+
+```java
+@Test
+public void testInsertOne() {
+    Emp emp = new Emp();
+    emp.setName("洛必达").setDeptId(20).setHireDate(new Date()).setMgr(7559)
+        .setComm(1000.0).setJob("Programmer").setSal(10000.0);
+    int i = session.insert("org.codeArt.mapper.EmpMapper.insertOne", emp);
+    System.out.println(i);
+}
+
+@Test
+public void testUpdateOne() {
+    Emp emp = new Emp();
+    emp.setId(1009).setName("曹操").setSal(88888.0);
+    int i = session.update("org.codeArt.mapper.EmpMapper.updateOne", emp);
+    System.out.println(i);
+}
+
+@Test
+public void testDeleteById() {
+    int i = session.delete("org.codeArt.mapper.EmpMapper.deleteById", 1009);
+    System.out.println(i);
+}
+```
 
 # 五. 代理模式开发
 
+前面已经使用 MyBatis 完成了对 Emp 表的 CRUD 操作，都是由 SqlSession 调用自身方法发送 SQL 命令并得到结果的，实现了 MyBatis 的入门。
 
+但是却存在如下缺点：
 
+1. 不管是 *selectList*、*selectOne*、*selectMap*，都是通过 SqlSession 对象的 API 完成增删改查，都只能提供一个查询参数。如果要多个参数，需要封装到 JavaBean 或者 Map 中，并不一定永远是一个好办法。
+2. 返回值类型较固定。
+3. 只提供了映射文件，没有提供数据库操作的接口，不利于后期的维护扩展。
 
+在 MyBatis 中提供了另外一种成为 **Mapper代理（或称为接口绑定）** 的操作方式。在实际开发中也使用该方式。下面我们就是要 Mapper 代理的方式来实现对 Emp 表的 CRUD 操作吧，还有完成多个参数传递、模糊查询、自增主键回填等更多的技能实现。搭建好的项目框架如图所示，相比而言，增加了接口 EmpMapper。但是却会引起映射文件和测试类的变化。
 
+主要有以下优点：
 
+1. 有接口模块之间有规范了。
+2. 参数的处理多样了，接口中的方法参数列表由我们自己决定。
+3. 通过代理模式由 Mybatis 提供接口的实现类对象，我们不用写实现类了。
 
+声明 EmpMapper 接口，mapper 层的接口需要和 Mapper XML 映射文件放在同一层，映射文件在 *resources* 文件夹下的路径要和对应的接口包路径一样。如：*org/mybatis/mapper*。
 
+```java
+public interface EmpMapper {
+	List<Emp> selectAll();
+}
+```
 
+*EmpMapper.xml*：
 
+```xml
+<mapper namespace="org.codeArt.mapper.EmpMapper">
+    <select id="selectAll" resultType="org.codeArt.pojo.Emp">
+        select * from `emp`
+    </select>
+</mapper>
+```
 
+*namespace* 为 mapper 层接口的全路径。映射文件需要和接口的名称保持一样。SQL 语句的 id 和 接口下的方法名称需要保持一样，不然会抛出 SQL 绑定异常。在编译之后，映射文件需要和 mapper 层接口在同一目录，这也就是为什么上面要求 *resources* 文件夹下和接口使用一样的路径。
 
+在 *sqlMapConfig.xml* 配置文件中加载对应的映射文件：
 
+```xml
+<mapper>
+    <mapper class="org.codeArt.mapper.EmpMapper"/>
+</mapper>
+```
 
+编写单元测试：
 
+```java
+@Test
+public void testProxySelectAll() {
+    EmpMapper mapper = session.getMapper(EmpMapper.class);
+    List<Emp> list = mapper.selectAll();
+    list.forEach(System.out::println);
+}	
+```
 
-
-
-
-
-
-
-
-
-
+这条语句的底层使用了动态代理模式，动态创建一个 EmpMapper 的一个代理对象并赋给接口引用。所以在MyBatis 中不需要显式提供 Mapper 接口的实现类，这也是简单的地方。
