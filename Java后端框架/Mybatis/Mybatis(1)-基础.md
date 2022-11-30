@@ -376,6 +376,18 @@ password=root
 </environments>
 ```
 
+## 3.6 驼峰自动转下划线
+
+Mybatis 提供了一种直接将驼峰自动映射下划线命名的方式：
+
+```xml
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+</configuration>
+```
+
 # 四. DAO模式开发
 
 普通模式，也称为传统 DAO 模式，就是在传统 DAO 模式下，定义接口和实现类，如：
