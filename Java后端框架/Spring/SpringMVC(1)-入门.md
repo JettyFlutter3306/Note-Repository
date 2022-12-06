@@ -482,23 +482,335 @@ private Map<String, Pet> petMap;
 
 ## 3.3 常见注解
 
+1. `@RequestMapping`：
 
+上面已经介绍过了，不猜赘述。需要强调的是，当这个注解作用在类上时，表示这个是第一级访问目录，还需要在方法上添加 `@RequestMapping` 注解才能匹配到对应的 Controller。请求路径的 `/` 可写或者可以不写，Spring MVC 会自动容错。
 
+2. `@RequestParam`：
 
+`@RequestParam` 注解可以把指定名称的参数给控制器中的形参赋值。
+
+属性：
+
+- *value*：请求参数的名称，不写默认就是。
+- *required*：是否必须提供，默认值为 `true`，表示必须提供，不然报错。
+- *defaultValue*：默认值，假如没有成功映射，那么可以提供一个默认值给形参，避免报错。Spring MVC 会自动做类型转换
+
+```java
+public void helloWorld(@RequestParam(value = "score", defaultValue = "10") Integer score) {
+    // ...
+}
+```
+
+上述例子，自动将 `String` 转为 `Integer`。
+
+3. `@PathVariable`：
+
+`@PathVariable` 注解用于解析路径中的动态参数，多用于和 Restful 接口路径参数搭配使用。
+
+同样有 *value* 和 *required* 属性。
+
+```java
+@Controller
+@RequestMapping("user")
+public class UserController {
+    @RequestMapping("/{id}")
+    public User getById(@PathVariable("id") Integer id) {
+        // ...
+    }
+}
+```
+
+上述例子，使用注解解析路径中的 `id` 参数，然后映射给形参 `id`，同样类型转换也是自动进行的。
+
+4. `@RequestHeader`：
+
+`@RquestHeader` 注解用于获取请求头中的参数，同样有两个属性分别是：*value* 和 *required*。
+
+```java
+@RequestMapping("/getRequestHeader") 
+public String header(@RequestHeader(value = "Accept", required = false) String requestHeader) { 
+    System.out.println(requestHeader); 
+    return "success"; 
+}
+```
+
+5. `@CookieValue`：
+
+`@CookieValue` 注解用于把指定的 cookie 名称的值传入控制器的方法参数。同样有两个属性分别是：*value* 和 *required*。
+
+```java
+@RequestMapping("/getCookie") 
+public String getCookie(@CookieValue(value = "JSESSIONID", required = false) String cookie) { 
+    System.out.println(cookieValue); 
+    return "success"; 
+} 
+```
 
 ## 3.4 处理响应
 
+Spring MVC 会根据控制器方法的返回值给前端返回不同的数据，可以是 `void`、转发重定向还可以是返回 json 数据。
 
+### 3.4.1 返回值void
 
+```java
+@RequestMapping("/testReturnVoid") 
+public void testReturnVoid() throws Exception { 
+    System.out.println("AccountController 的 testForward 方法执行了");
+}
+```
 
+在 Spring MVC 中如果对于当前的控制单元，没有写对应的返回值，这个时候 Spring MVC 就会**找和自己控制单元名称一致的页面**展示，如果没有配置视图解析器的前缀和后缀是没有产生 404，需要注意控制单元仍然可以进。
 
+### 3.4.2 Servlet转发和重定向
 
+```java
+@RequestMapping("demo1")
+public void testDemo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    // 请求转发
+    // request.getRequestDispatcher("/forward.jsp").forward(request, response);
+    // 响应重定向
+    response.sendRedirect(request.getContextPath() + "/redirect.jsp");
+}
+```
+
+单元方法的返回值类型设置 `void`。因为使用 response 对象在单元方法中直接对此次请求进行了响应，不再通过 `DispatcherServlet` 了，既然已经响应了，就不需要再给 `DispatcherServlet` 返回值了。在单元方法上声明 `HttpServletResponse` 形参，来接收此次请求的 response 对象。
+
+### 3.4.3 forward指令
+
+在 Spring MVC 中控制器方法的返回值设为 `String` 表示你可能返回的是一个视图名称，Spring MVC 会自动解析视图。使用 `forward` 指令可以做转发操作，但是也可以省略不写这个指令名称。
+
+```java
+@RequestMapping("demo")
+public String testDemo() throws Exception {
+    // return "forward:success";
+    return "success";
+}
+```
+
+### 3.4.4 redirect指令
+
+`redirec` 指令可以告诉 Spring MVC 做重定向操作，路径中以 `/` 开头表示当前项目下，这里不需要使用上下文路径。
+
+```java
+@RequestMapping("demo")
+public String testDemo() throws Exception {
+    return "redirect:/redirectPage.jsp";
+}
+```
+
+使用通过单元方法的返回值来告诉 `DispatcherServlet` 重定向指定的资源，注意这个 `redirect` 关键字不可以省去。
+
+### 3.4.5 使用View
+
+```java
+@RequestMapping("demo")
+public View testDemo(HttpServletRequest req) {
+    View  view = null;
+    // 请求转发
+    // view =new InternalResourceView("/forwardPage.jsp");
+    // 重定向
+    view = new RedirectView(req.getContextPath() + "/redirectPage.jsp");
+    return view;
+}
+```
+
+`RedirectView` 中所做的操作，最终的实现是在 *renderMergedOutputModel* 中完成实现的，简单来说`RedirectView` 实现了链接的重定向，并且将数据保存到 FlashMap 中，这样在跳转后的链接中可以获取一些数据。
+
+### 3.4.6 使用ModelAndView
+
+```java
+@RequestMapping("demo")
+public ModelAndView testDemo(HttpServletRequest req) {
+    ModelAndView mv = new ModelAndView();
+    // 请求转发
+    // mv.setViewName("forward:/forwardPage.jsp");
+    // mv.setView(new InternalResourceView("/forwardPage.jsp"));
+    // 重定向
+    // mv.setViewName("redirect:/redirectPage.jsp");
+    mv.setView(new RedirectView(req.getContextPath() + "/redirectPage.jsp"));
+    return mv;
+}
+```
+
+`ModelAndView` 中的 Model 代表模型，View 代表视图，这个名字就很好地解释了该类的作用。业务处理器调用模型层处理完用户请求后，把结果数据存储在该类的 model 属性中，把要返回的视图信息存储在该类的 *view* 属性中，然后让该 `ModelAndView` 返回该 Spring MVC 框架。
+
+### 3.4.7 响应json数据
+
+当浏览器发起一个 Ajax请求给服务器，服务器调用对应的单元方法处理 Ajax请求。而 Ajax 的请求在被处理完成后，其处理结果需要直接响应。而目前我们在单元方法中响应 Ajax 请求，使用的是 response 对象，需要我们自己将要响应的数据转换  为 json 字符串响应，比较麻烦，而我们一直希望在单元方法中无论是否是 Ajax 请求，都使用 `return` 语句来完成资源的响应，怎么办？
+
+既然我们希望使用单元方法的返回值来响应 Ajax 请求的处理结果，而目前 `DispatcherServlet` 的底层会将单元方法的返回值按照请求转发或者重定向来处理，所以就需要我们告诉 `DispatcherServlet`，单元方法的返回值不要按照请求转发或者重定向处理，而是按照直接响应处理，将单元方法的返回值直接响应给浏览器。
+
+使用 `@ReponseBody` 注解可以直接将方法的返回值转换成 json 数据返回给前端：
+
+```java
+@ResponseBody
+@RequestMapping("testAjax")
+public User testAjax() {
+    User user = new User("洛必达", "123456");
+    return user;
+}
+```
+
+前端使用 jQuery 或者 axios 等异步请求库即可。
+
+也可以使用 `@RestController` 注解将一个 Controller 的所有的方法的返回值都自动转成 json 数据返回给浏览器。`@RestController` 注解相当于是 `@Controller` 和 `@ResponseBody` 两个注解的组合，但是使用这个注解之后就不能返回 JSP、Html 等视图资源了，这个注解时候前后端分离开发。
+
+```java
+@RestController
+@RequestMapping("user")
+public class UserController {
+    @RequestMapping("list")
+    public List<User> list() {
+        // ...
+        return users;
+    }
+}
+```
 
 ## 3.5 Restful接口
 
+**Restful** 也就是**表述性状态转移**，它是一组架构约束条件和原则。满足这些约束条件的原则的应用程序或设计就是 **Restful**。需要注意的是，REST 是设计风格而不是标准。REST 通常基于使用 HTTP、URI 和 XML 以及 HTML 这些现有的广泛流行的协议和标准。
+
+REST 定义了一组体系架构原则，你可以根据这些设计原则以系统资源为中心的 Web 服务，包括使用不同语言编写的客户端如何通过 HTTP 处理和传输资源状态。如何考虑使用它的 Web 服务的数量，REST 近年来已经成为最主要的 Web 服务设计模式。事实上，REST 对 Web 的影响非常大，由于其使用相当方便，已经普遍地取代了基于 SOAP 和 WSDL 的接口设计。
+
+Http 协议中,四个表示操作方式的动词 **GET**、**POST**、**PUT**、**DELETE**，他们对应四种基本操作。**GET** 用来获取资源，**POST** 用来新建资源，**PUT** 用来更新资源，**DELETE** 用来删除资源。
+
+表单提交不支持 **PUT** 和 **DELETE** 方法，需要使用一个隐藏域提交一个参数 *_method*。
+
+```html
+<form action="rest/testRest/10" method="POST">
+    <input  type="hidden" name="_method" value="PUT">
+    <input type="submit" value="testPUT">
+</form>
+<br/>
+
+<form action="rest/testRest/10" method="POST">
+    <input  type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="testDELETE">
+</form>
+<br/>
+
+<form action="rest/testRest/10" method="POST">
+    <input type="submit" value="testPOST">
+</form>
+<br/>
+
+<form action="rest/testRest/10" method="GET">
+    <input type="submit" value="testGET">
+</form>
+```
+
+还需要配置 *web.xml* 配置文件，引入 `HiddenHttpMethodFilter` 来做请求转换，识别有隐藏域的表单：
+
+```xml
+<filter>
+    <filter-name>hiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>hiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+转换源码：
+
+```java
+public class HiddenHttpMethodFilter extends OncePerRequestFilter {
+
+	private static final List<String> ALLOWED_METHODS =
+			Collections.unmodifiableList(Arrays.asList(HttpMethod.PUT.name(),
+					HttpMethod.DELETE.name(), HttpMethod.PATCH.name()));
+
+	/** Default method parameter: {@code _method}. */
+	public static final String DEFAULT_METHOD_PARAM = "_method";
+
+	private String methodParam = DEFAULT_METHOD_PARAM;
 
 
+	/**
+	 * Set the parameter name to look for HTTP methods.
+	 * @see #DEFAULT_METHOD_PARAM
+	 */
+	public void setMethodParam(String methodParam) {
+		Assert.hasText(methodParam, "'methodParam' must not be empty");
+		this.methodParam = methodParam;
+	}
 
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+
+		HttpServletRequest requestToUse = request;
+
+		if ("POST".equals(request.getMethod()) && request.getAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE) == null) {
+			String paramValue = request.getParameter(this.methodParam);
+			if (StringUtils.hasLength(paramValue)) {
+				String method = paramValue.toUpperCase(Locale.ENGLISH);
+				if (ALLOWED_METHODS.contains(method)) {
+					requestToUse = new HttpMethodRequestWrapper(request, method);
+				}
+			}
+		}
+
+		filterChain.doFilter(requestToUse, response);
+	}
+
+
+	/**
+	 * Simple {@link HttpServletRequest} wrapper that returns the supplied method for
+	 * {@link HttpServletRequest#getMethod()}.
+	 */
+	private static class HttpMethodRequestWrapper extends HttpServletRequestWrapper {
+
+		private final String method;
+
+		public HttpMethodRequestWrapper(HttpServletRequest request, String method) {
+			super(request);
+			this.method = method;
+		}
+
+		@Override
+		public String getMethod() {
+			return this.method;
+		}
+	}
+
+}
+```
+
+声明 `RestfulController`：
+
+```java
+@RequestMapping(value = "rest")
+@RestController
+public class RestfulController {
+    @RequestMapping(value = "testRest/{id}", method = RequestMethod.PUT)
+    public String testPut(@PathVariable(value = "id") Integer id) {
+        System.out.println("testPut, id:" + id);
+        return "show";
+    }
+
+    @RequestMapping(value = "testRest/{id}", method = RequestMethod.DELETE)
+    public String testDelete(@PathVariable(value = "id") Integer id) {
+        System.out.println("testDelete, id:" + id);
+        return "show";
+    }
+    
+    @RequestMapping(value = "testRest/{id}", method = RequestMethod.POST)
+    public String testPOST(@PathVariable(value = "id") Integer id) {
+        System.out.println("testPOST, id:" + id);
+        return "show";
+    }
+    
+    @RequestMapping(value = "testRest/{id}", method = RequestMethod.GET)
+    public String testGET(@PathVariable(value = "id") Integer id) {
+        System.out.println("testGET, id:" + id);
+        return "show";
+    }
+}
+```
 
 ## 3.6 编码问题
 
@@ -518,4 +830,3 @@ private Map<String, Pet> petMap;
     <url-pattern>/*</url-pattern>
 </filter-mapping>
 ```
-
