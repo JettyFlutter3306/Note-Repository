@@ -165,11 +165,11 @@ View Resolver 负责将处理结果生成 View 视图，View Resolver 首先根�
 
 - `View`：视图。
 
-SpringMVC 框架提供了很多的 View 视图类型的支持，包括：JstlView、FreemarkerView、PdfView等。我们最常用的视图就是 JSP。 一般情况下需要通过页面标签或页面模版技术将模型数据通过页面展示给用户，需要由程序员根据业务需求开发具体的页面。
+Spring MVC 框架提供了很多的 View 视图类型的支持，包括：JstlView、FreemarkerView、PdfView 等。我们最常用的视图就是 JSP。 一般情况下需要通过页面标签或页面模版技术将模型数据通过页面展示给用户，需要由程序员根据业务需求开发具体的页面。
 
 - `mvc:annotation-driven`：
 
-在 SpringMVC 的各个组件中，**处理器映射器、处理器适配器、视图解析器**称为 SpringMVC 的三大组件。使用 `<mvc:annotation-driven/>` 自动加载 `RequestMappingHandlerMapping` （处理映射器） 和 `RequestMappingHandlerAdapter` (处 理 适 配 器 ) ， 可 用 在 *SpringMVC.xml* 配 置 文 件 中 使 用 `<mvc:annotation-driven/>`替代注解处理器和适配器的配置。
+在 SpringMVC 的各个组件中，**处理器映射器、处理器适配器、视图解析器**称为 SpringMVC 的三大组件。使用 `<mvc:annotation-driven/>` 自动加载 `RequestMappingHandlerMapping` （处理映射器） 和 `RequestMappingHandlerAdapter` (处 理 适 配 器)，可以在 *SpringMVC.xml* 配 置 文 件 中 使 用 `<mvc:annotation-driven/>`替代注解处理器和适配器的配置。这个配置还支持使用了 `ConversionService]`的实例对表单参数进行类型转换，支持使用 `@NumberFormat`、`@DateTimeFormat` 注解对数据类型进行格式化，支持使用 `@Valid` 对 JavaBean 进行 JSR-303 验证，支持使用 `@RequestBody`、`@ResponseBody`。
 
 `DispatcherServlet` 核心源码：
 
