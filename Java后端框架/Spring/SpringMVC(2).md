@@ -53,26 +53,12 @@ password=root
        http://www.springframework.org/schema/mvc 
        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <aop:aspectj-autoproxy/>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/static/**" location="static/"/>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
     
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
-    </bean>
-
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
-        <property name="url" value="${url}"/>
-        <property name="driverClassName" value="${driver}"/> 
-        <property name="initialSize" value="1"/>
-    </bean>
-    
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
     </bean>
 </beans>
 ```
