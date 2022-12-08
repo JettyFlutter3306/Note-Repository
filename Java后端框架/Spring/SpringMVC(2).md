@@ -141,7 +141,7 @@ password=root
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-context.xml</param-value>
+            <param-value>classpath:spring-mvc-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
